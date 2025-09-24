@@ -22,7 +22,7 @@ public class GoldPriceEn {
     private int goldId;
 
     @Column(nullable = false)
-    private int goldCode;
+    private String goldCode;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
