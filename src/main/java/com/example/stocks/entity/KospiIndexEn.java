@@ -44,6 +44,9 @@ public class KospiIndexEn {
     @Column(nullable = false)
     private Long tradingValue;
 
+//    @Column(nullable = false)
+//    private int employItemCount;
+
     @Column(nullable = false)
     private Long marketCap;
 }

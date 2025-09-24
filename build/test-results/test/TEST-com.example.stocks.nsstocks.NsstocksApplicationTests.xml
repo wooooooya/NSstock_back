@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.stocks.nsstocks.NsstocksApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-15T04:51:29.312Z" hostname="gwang-uui-MacBookPro.local" time="0.415">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.example.stocks.nsstocks.NsstocksApplicationTests" time="0.415"/>
+  <system-out><![CDATA[13:51:26.984 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.stocks.nsstocks.NsstocksApplicationTests]: NsstocksApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:51:27.015 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.stocks.NsstocksApplication for test class com.example.stocks.nsstocks.NsstocksApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.4)
+
+2025-09-15T13:51:27.128+09:00  INFO 51526 --- [nsstocks] [    Test worker] c.e.s.nsstocks.NsstocksApplicationTests  : Starting NsstocksApplicationTests using Java 17.0.14 with PID 51526 (started by wo_oya in /Users/wo_oya/Documents/GitHub/nsstock)
+2025-09-15T13:51:27.129+09:00  INFO 51526 --- [nsstocks] [    Test worker] c.e.s.nsstocks.NsstocksApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+2025-09-15T13:51:27.310+09:00  INFO 51526 --- [nsstocks] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-15T13:51:27.329+09:00  INFO 51526 --- [nsstocks] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 7 JPA repository interfaces.
+2025-09-15T13:51:27.427+09:00  INFO 51526 --- [nsstocks] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-15T13:51:27.439+09:00  INFO 51526 --- [nsstocks] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.11.Final
+2025-09-15T13:51:27.447+09:00  INFO 51526 --- [nsstocks] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-15T13:51:27.519+09:00  INFO 51526 --- [nsstocks] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-15T13:51:27.527+09:00  INFO 51526 --- [nsstocks] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-15T13:51:28.649+09:00  INFO 51526 --- [nsstocks] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@29147c12
+2025-09-15T13:51:28.650+09:00  INFO 51526 --- [nsstocks] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-15T13:51:28.677+09:00  WARN 51526 --- [nsstocks] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-15T13:51:28.697+09:00  INFO 51526 --- [nsstocks] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 10.6.23
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-15T13:51:28.981+09:00  INFO 51526 --- [nsstocks] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-15T13:51:29.039+09:00  INFO 51526 --- [nsstocks] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-15T13:51:29.104+09:00  INFO 51526 --- [nsstocks] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-15T13:51:29.191+09:00  WARN 51526 --- [nsstocks] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-15T13:51:29.308+09:00  INFO 51526 --- [nsstocks] [    Test worker] c.e.s.nsstocks.NsstocksApplicationTests  : Started NsstocksApplicationTests in 2.246 seconds (process running for 2.559)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

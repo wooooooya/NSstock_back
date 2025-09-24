@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,7 +44,7 @@ public class PredictedServiceSer {
         // 종목 리스트 DTO 생성
         List<PreResTopDto> resultList = stockList.stream()
                 .map(stock -> PreResTopDto.builder()
-                        .shortcode(stock.getStockID())
+                        .code(stock.getStockID())
                         .stocks(stock.getStockName())
                         .price(new BigDecimal(stock.getStockPrice()))
                         .build())
@@ -78,17 +80,10 @@ public class PredictedServiceSer {
         stockPrices7Days.sort(Comparator.comparing(StockPriceEn::getDate));
         stockPrices30Days.sort(Comparator.comparing(StockPriceEn::getDate));
 
-        // 이번 달 1일 기준으로 1년 전까지의 월별 평균 데이터 조회
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        Date thisMonthStart = calendar.getTime();
-
-        calendar.add(Calendar.YEAR, -1);
-        Date oneYearAgo = calendar.getTime();
+        // --- LocalDate를 사용한 날짜 계산 (개선됨) ---
+        LocalDate today = LocalDate.now();
+        Date thisMonthStart = Date.from(today.withDayOfMonth(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date oneYearAgo = Date.from(today.withDayOfMonth(1).minusYears(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         List<Object[]> monthlyAvgData = stockPriceRe.findMonthlyAvgChartData(shortCode, oneYearAgo, thisMonthStart);
 
@@ -174,8 +169,9 @@ public class PredictedServiceSer {
         String shortCode = preReqDto.getShortCode();
         List<PreResPredictedDto> predictedList = predictedStockPriceRe.findLatestSevenPredictionsByShortCode(shortCode);
 
+        // --- 불필요한 null 체크 제거 (개선됨) ---
         return PreResRateDto.builder()
-                .previousList(predictedList == null || predictedList.isEmpty() ? null : predictedList)
+                .previousList(predictedList.isEmpty() ? null : predictedList)
                 .build();
     }
 
@@ -201,7 +197,7 @@ public class PredictedServiceSer {
         PreResStockListDto stock = stockList.get(0);
         List<PreResTopDto> resultList = Collections.singletonList(
                 PreResTopDto.builder()
-                        .shortcode(stock.getStockID())
+                        .code(stock.getStockID())
                         .stocks(stock.getStockName())
                         .price(new BigDecimal(stock.getStockPrice()))
                         .build()

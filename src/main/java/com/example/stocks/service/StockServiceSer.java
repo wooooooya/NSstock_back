@@ -4,6 +4,7 @@ import com.example.stocks.dto.*;
 import com.example.stocks.entity.ExchangeRateEn;
 import com.example.stocks.entity.KospiIndexEn;
 import com.example.stocks.entity.OilPriceEn;
+import com.example.stocks.entity.StockPriceEn;
 import com.example.stocks.entity.enumeration.OilType;
 import com.example.stocks.repository.ExchangeRateRe;
 import com.example.stocks.repository.KospiIndexRe;
@@ -17,6 +18,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -199,25 +201,19 @@ public class StockServiceSer {
                 .oilPrice(oilDto)
                 .build();
     }
-
-    // 거래량 상위 10종목 데이터 처리
-    public MaResDto tradingVolumeTop10() {
+    public MaResDto findTop10ByRecentDateOrderByTradingVolumeDesc() {
+        // 1. Repository에서 가격 변동 데이터까지 모두 포함된 리스트를 가져옵니다.
         List<PreResStockListDto> recentList = stockPriceRe.findTop10ByRecentDateOrderByTradingVolumeDesc();
 
-        List<MaResTradingVolumeDto> resultList = new ArrayList<>();
-
-        for (PreResStockListDto recentStock : recentList) {
-            long recentVolume = recentStock.getVolume();
-            long volumeDiff = 0L;
-            BigDecimal volumeRate = BigDecimal.ZERO;
-
-            resultList.add(MaResTradingVolumeDto.builder()
-                    .stocks(recentStock.getStockName())
-                    .volume(recentVolume)
-                    .volumeIndecrease(volumeDiff)
-                    .volumePercentage(volumeRate)
-                    .build());
-        }
+        // 2. 최종 DTO 리스트로 간단하게 변환합니다. (계산 로직이 필요 없어졌습니다.)
+        List<MaResTradingVolumeDto> resultList = recentList.stream()
+                .map(recentStock -> MaResTradingVolumeDto.builder()
+                        .stocks(recentStock.getStockName())
+                        .volume(recentStock.getVolume())
+                        .volumeIndecrease(recentStock.getPriceChange()) // DB의 price_change 값을 사용
+                        .volumePercentage(recentStock.getPriceChangeRate()) // DB의 price_change_rate 값을 사용
+                        .build())
+                .toList();
 
         return MaResDto.builder()
                 .code("SU")

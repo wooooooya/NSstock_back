@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class PreResTopDto {
-    private String shortcode;        // short_code
+    private String code;        // short_code
     private String stocks;      // 종목명
     private BigDecimal price;   // 주식 가격
 }
