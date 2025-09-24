@@ -1,0 +1,11 @@
+# Spring Boot config
+src/main/resources/application.properties
+
+# 빌드 결과물
+/build/
+/out/
+
+# IDE 설정
+/.idea/
+/*.iml
+
