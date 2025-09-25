@@ -9,3 +9,5 @@ public class NsstocksApplication {
 		SpringApplication.run(NsstocksApplication.class, args);
 	}
 }
+
+// 배포 자동화 테스트 주석
