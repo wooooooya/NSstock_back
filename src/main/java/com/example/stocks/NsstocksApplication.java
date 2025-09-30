@@ -9,3 +9,4 @@ public class NsstocksApplication {
 		SpringApplication.run(NsstocksApplication.class, args);
 	}
 }
+
