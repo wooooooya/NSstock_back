@@ -4,7 +4,6 @@ import com.example.stocks.dto.*;
 import com.example.stocks.entity.ExchangeRateEn;
 import com.example.stocks.entity.KospiIndexEn;
 import com.example.stocks.entity.OilPriceEn;
-import com.example.stocks.entity.StockPriceEn;
 import com.example.stocks.entity.enumeration.OilType;
 import com.example.stocks.repository.ExchangeRateRe;
 import com.example.stocks.repository.KospiIndexRe;
@@ -18,7 +17,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

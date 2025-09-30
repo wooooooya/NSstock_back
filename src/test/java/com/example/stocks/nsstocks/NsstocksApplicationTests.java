@@ -9,5 +9,4 @@ class NsstocksApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
