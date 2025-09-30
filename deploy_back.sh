@@ -30,6 +30,6 @@ echo "==== Gradle 빌드 시작 ===="
 
 # 7. 백엔드 서비스 재시작
 echo "==== 서비스 재시작 ===="
-systemctl restart backend
+sudo systemctl restart backend.service
 
 echo "==== [배포 완료] $(date) ===="
