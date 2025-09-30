@@ -11,9 +11,9 @@ import java.util.List;
 // 예측값 리포지토리
 public interface PredictedStockPriceRe extends JpaRepository<PredictedStockPriceEn, Long> {
 
-    //shortCode에 대해 가장 최근 생성된 예측 데이터 중  7일이후의 예측 정보 조회
-    // @param shortCode
-    // @return 최근 생성된 예측값 7개 (종가, 증감률, 날짜)
+     //shortCode에 대해 가장 최근 생성된 예측 데이터 중  7일이후의 예측 정보 조회
+     // @param shortCode
+     // @return 최근 생성된 예측값 7개 (종가, 증감률, 날짜)
     @Query(value = """
         SELECT 
             p.short_code AS shortCode,                 -- 예측 테이블의 종목 코드
