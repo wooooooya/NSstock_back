@@ -1,28 +1,80 @@
-name: Deploy Backend to EC2
+# .github/workflows/deploy-backend.yml
+
+name: CI/CD Pipeline for Spring Boot Backend
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ] # main 브랜치에 푸시될 때 워크플로우 실행
 
 jobs:
-  deploy-backend:
+  # =================================================================
+  # JOB 1: 빌드 및 테스트
+  # =================================================================
+  build-and-test:
     runs-on: ubuntu-latest
+    
+    steps:
+      # 1. 소스 코드 체크아웃
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # 2. JDK 17 설정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. Gradle 실행 권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # 4. Gradle로 빌드 및 테스트 실행
+      - name: Build with Gradle
+        run: ./gradlew build # 'build'는 'test'를 포함하므로 모든 테스트가 실행됨
+
+      # 5. 빌드 결과물(jar)을 Artifact로 업로드
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar # Artifact 이름
+          path: build/libs/*.jar # 업로드할 파일 경로
+
+  # =================================================================
+  # JOB 2: EC2에 배포
+  # =================================================================
+  deploy:
+    # 'build-and-test' 잡이 성공해야만 이 잡이 실행됨
+    needs: build-and-test 
+    runs-on: ubuntu-latest
+    
+    # main 브랜치에 직접 푸시되었을 때만 실행 (Pull Request는 제외)
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.8.0
+      # 1. Artifact에서 .jar 파일 다운로드
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          name: backend-jar # 업로드했던 Artifact 이름과 동일해야 함
 
-      - name: Deploy Backend to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/ec2-user/NSstock_back
-            git pull origin main
-            ./deploy_back.sh
-          EOF
+      # 2. 다운로드된 .jar 파일을 EC2 서버로 전송
+      - name: Transfer Jar to EC2
+        uses: appleboy/scp-action@v1.0.1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "*.jar" # 다운로드된 jar 파일 (현재 경로에 있음)
+          target: "/home/${{ secrets.EC2_USER }}/"
 
+      # 3. EC2 서버에 접속하여 배포 스크립트 실행
+      - name: Execute Deploy Script on EC2
+        uses: appleboy/ssh-action@v1.0.1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            chmod +x /home/${{ secrets.EC2_USER }}/NSstock_back/deploy_back.sh
+            /home/${{ secrets.EC2_USER }}/NSstock_back/deploy_back.sh
