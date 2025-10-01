@@ -31,7 +31,7 @@ jobs:
 
       # 4. Gradle로 빌드 및 테스트 실행
       - name: Build with Gradle
-        run: ./gradlew build # 'build'는 'test'를 포함하므로 모든 테스트가 실행됨
+        run: ./gradlew build --info # 'build'는 'test'를 포함하므로 모든 테스트가 실행됨
 
       # 5. 빌드 결과물(jar)을 Artifact로 업로드
       - name: Upload JAR artifact

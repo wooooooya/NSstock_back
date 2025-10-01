@@ -1,12 +1,11 @@
 package com.example.stocks.service;
 
 import com.example.stocks.dto.*;
-import com.example.stocks.entity.ExchangeRateEn;
+//import com.example.stocks.entity.ExchangeRateEn;
 import com.example.stocks.entity.KospiIndexEn;
 import com.example.stocks.entity.OilPriceEn;
-import com.example.stocks.entity.StockPriceEn;
 import com.example.stocks.entity.enumeration.OilType;
-import com.example.stocks.repository.ExchangeRateRe;
+//import com.example.stocks.repository.ExchangeRateRe;
 import com.example.stocks.repository.KospiIndexRe;
 import com.example.stocks.repository.OilPriceRe;
 import com.example.stocks.repository.StockPriceRe;
@@ -18,13 +17,12 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class StockServiceSer {
     private final KospiIndexRe kospiIndexRe; // 코스피 지수 Repository
-    private final ExchangeRateRe exchangePriceRe; // 환율 Repository
+//    private final ExchangeRateRe exchangePriceRe; // 환율 Repository
     private final OilPriceRe oilPriceRe; // 유가 Repository
     private final StockPriceRe stockPriceRe; // 주식 거래량 Repository
 
@@ -82,63 +80,63 @@ public class StockServiceSer {
     }
 
     // 환율 데이터 처리 메서드
-    public MaResDto exchangeRate() {
-        String currency = "미국 달러 (USD)";
-
-        // 해당 통화의 최근 15일 데이터 조회
-        List<ExchangeRateEn> rateList = exchangePriceRe.findLatest15DaysByCurrency(currency);
-
-        if (rateList == null || rateList.size() < 2) {
-            return MaResDto.builder()
-                    .code("ER")
-                    .message("Not enough data for exchange rate")
-                    .build();
-        }
-
-        rateList.sort(Comparator.comparing(ExchangeRateEn::getDate));
-
-        // 차트용 DTO 리스트 생성
-        List<MaResExchangeRateDto.ExchangeChart> exchangeChartList = rateList.stream()
-                .map(data -> MaResExchangeRateDto.ExchangeChart.builder()
-                        .eDate(data.getDate().toString())
-                        .eChat(data.getClosingPrice().longValue())
-                        .build())
-                .toList();
-
-        // 전일과 전전일 비교
-        ExchangeRateEn yesterday = rateList.get(rateList.size() - 1);
-        ExchangeRateEn dayBefore = rateList.get(rateList.size() - 2);
-
-        BigDecimal yClose = yesterday.getClosingPrice();
-        BigDecimal dClose = dayBefore.getClosingPrice();
-        BigDecimal diff = yClose.subtract(dClose);
-        long indecrease = diff.longValue();
-
-        double percentage = dClose.compareTo(BigDecimal.ZERO) == 0
-                ? 0.0
-                : diff.divide(dClose, 4, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(100)).doubleValue();
-
-        // 전일 환율 DTO
-        MaResDto.PreviousClose previousClose = MaResDto.PreviousClose.builder()
-                .price(yClose.longValue())
-                .indecrease(indecrease)
-                .percentage(percentage)
-                .build();
-
-        // 환율 DTO 생성
-        MaResExchangeRateDto exchangeRateDto = MaResExchangeRateDto.builder()
-                .exchangePreviousClose(previousClose)
-                .exchangeChat(exchangeChartList)
-                .build();
-
-        // 최종 응답 반환
-        return MaResDto.builder()
-                .code("SU")
-                .message("Success")
-                .exchangeRate(exchangeRateDto)
-                .build();
-    }
+//    public MaResDto exchangeRate() {
+//        String currency = "미국 달러 (USD)";
+//
+//        // 해당 통화의 최근 15일 데이터 조회
+//        List<ExchangeRateEn> rateList = exchangePriceRe.findLatest15DaysByCurrency(currency);
+//
+//        if (rateList == null || rateList.size() < 2) {
+//            return MaResDto.builder()
+//                    .code("ER")
+//                    .message("Not enough data for exchange rate")
+//                    .build();
+//        }
+//
+//        rateList.sort(Comparator.comparing(ExchangeRateEn::getDate));
+//
+//        // 차트용 DTO 리스트 생성
+//        List<MaResExchangeRateDto.ExchangeChart> exchangeChartList = rateList.stream()
+//                .map(data -> MaResExchangeRateDto.ExchangeChart.builder()
+//                        .eDate(data.getDate().toString())
+//                        .eChat(data.getClosingPrice().longValue())
+//                        .build())
+//                .toList();
+//
+//        // 전일과 전전일 비교
+//        ExchangeRateEn yesterday = rateList.get(rateList.size() - 1);
+//        ExchangeRateEn dayBefore = rateList.get(rateList.size() - 2);
+//
+//        BigDecimal yClose = yesterday.getClosingPrice();
+//        BigDecimal dClose = dayBefore.getClosingPrice();
+//        BigDecimal diff = yClose.subtract(dClose);
+//        long indecrease = diff.longValue();
+//
+//        double percentage = dClose.compareTo(BigDecimal.ZERO) == 0
+//                ? 0.0
+//                : diff.divide(dClose, 4, RoundingMode.HALF_UP)
+//                .multiply(BigDecimal.valueOf(100)).doubleValue();
+//
+//        // 전일 환율 DTO
+//        MaResDto.PreviousClose previousClose = MaResDto.PreviousClose.builder()
+//                .price(yClose.longValue())
+//                .indecrease(indecrease)
+//                .percentage(percentage)
+//                .build();
+//
+//        // 환율 DTO 생성
+//        MaResExchangeRateDto exchangeRateDto = MaResExchangeRateDto.builder()
+//                .exchangePreviousClose(previousClose)
+//                .exchangeChat(exchangeChartList)
+//                .build();
+//
+//        // 최종 응답 반환
+//        return MaResDto.builder()
+//                .code("SU")
+//                .message("Success")
+//                .exchangeRate(exchangeRateDto)
+//                .build();
+//    }
 
     // 유가 데이터 처리 메서드
     public MaResDto oilPrice() {
