@@ -61,7 +61,7 @@ jobs:
 
       # 2. 다운로드된 .jar 파일을 EC2 서버로 전송
       - name: Transfer Jar to EC2
-        uses: appleboy/scp-action@v1.0.1
+        uses: appleboy/scp-action@v0.1.5
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
