@@ -24,6 +24,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
 
       # 3. Gradle 실행 권한 부여
       - name: Grant execute permission for gradlew
